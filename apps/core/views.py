@@ -1,6 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.http import JsonResponse
 from apps.core.models import Testimonial
+
+
+def health_check(request):
+    """Health check endpoint for Railway."""
+    return JsonResponse({'status': 'healthy', 'service': 'cr8tiveiq'})
 
 
 class HomeView(TemplateView):

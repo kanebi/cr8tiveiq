@@ -118,6 +118,7 @@ else:
         }
     }
 
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -271,8 +272,10 @@ if not DEBUG:
     # Trust Railway's proxy headers
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     
-    # HTTPS and Security Headers
-    SECURE_SSL_REDIRECT = True
+    # Don't force SSL redirect - Railway handles HTTPS at proxy level
+    SECURE_SSL_REDIRECT = False
+    
+    # Cookie security
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
