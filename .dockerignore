@@ -1,0 +1,64 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info
+dist
+build
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+/media
+/staticfiles
+
+# Environment
+.env
+.env.*
+*.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation
+*.md
+!README.md
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+npm-debug.log
+
+# Deployment
+.railway/
+railway.toml
+nixpacks.toml
+deploy.sh
+
+# Misc
+.dockerignore
+Dockerfile
