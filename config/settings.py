@@ -268,6 +268,9 @@ LOGGING = {
 
 # Security Settings
 if not DEBUG:
+    # Trust Railway's proxy headers
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
     # HTTPS and Security Headers
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
