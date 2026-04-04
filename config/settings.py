@@ -19,7 +19,18 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-me-in-production')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
+# ALLOWED_HOSTS configuration
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+# Add Railway domain automatically
+railway_domain = os.getenv('RAILWAY_PUBLIC_DOMAIN')
+if railway_domain and railway_domain not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(railway_domain)
+
+# Allow all hosts in development
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -290,8 +301,15 @@ if not DEBUG:
     railway_static_url = os.getenv('RAILWAY_STATIC_URL')
     
     if railway_domain:
-        CSRF_TRUSTED_ORIGINS.append(f'https://{railway_domain}')
+        # Ensure domain has scheme
+        if not railway_domain.startswith(('http://', 'https://')):
+            railway_domain = f'https://{railway_domain}'
+        CSRF_TRUSTED_ORIGINS.append(railway_domain)
+    
     if railway_static_url:
+        # Ensure URL has scheme
+        if not railway_static_url.startswith(('http://', 'https://')):
+            railway_static_url = f'https://{railway_static_url}'
         CSRF_TRUSTED_ORIGINS.append(railway_static_url)
     
     # Add custom domains from environment
@@ -300,7 +318,10 @@ if not DEBUG:
         for domain in custom_domains.split(','):
             domain = domain.strip()
             if domain:
-                CSRF_TRUSTED_ORIGINS.append(f'https://{domain}')
+                # Ensure domain has scheme
+                if not domain.startswith(('http://', 'https://')):
+                    domain = f'https://{domain}'
+                CSRF_TRUSTED_ORIGINS.append(domain)
 
 CSRF_COOKIE_HTTPONLY = True
 
