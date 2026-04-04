@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - CR8TIVEIQ{% endblock %}
+{% block description %}Get in touch with our team. We'd love to hear about your project and discuss how we can help.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-gradient-to-br from-gray-50 via-white to-white pt-40 pb-20 relative overflow-hidden">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-primary-blue/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-72 h-72 bg-accent-green/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center animate-fade-in-up">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary-blue to-accent-green bg-clip-text text-transparent">Get In Touch</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Have a project in mind? Let's discuss how we can help bring your vision to life.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Contact Form -->
+            <div class="lg:col-span-2 animate-fade-in-up">
+                <div class="bg-white border border-gray-200 rounded-xl p-8">
+                    <h2 class="text-3xl font-bold mb-8 text-gray-900">Send us a Message</h2>
+                    <form name="contact" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label class="block text-sm font-semibold mb-2 text-gray-800">Full Name *</label>
+                                <input type="text" name="name" required class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg focus:outline-none focus:border-primary-blue transition-colors duration-300" placeholder="Your name">
+                            </div>
+                            <div class="form-group">
+                                <label class="block text-sm font-semibold mb-2 text-gray-800">Email Address *</label>
+                                <input type="email" name="email" required class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg focus:outline-none focus:border-primary-blue transition-colors duration-300" placeholder="your@email.com">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label class="block text-sm font-semibold mb-2 text-gray-800">Phone Number</label>
+                                <input type="tel" name="phone" class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg focus:outline-none focus:border-primary-blue transition-colors duration-300" placeholder="+1 (555) 000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label class="block text-sm font-semibold mb-2 text-gray-800">Company</label>
+                                <input type="text" name="company" class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg focus:outline-none focus:border-primary-blue transition-colors duration-300" placeholder="Your company">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-semibold mb-2 text-gray-800">Service Type *</label>
+                            <select name="service" required class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:border-primary-blue transition-colors duration-300">
+                                <option value="">Select a service</option>
+                                <option value="branding">Brand Management</option>
+                                <option value="social">Social Media Management</option>
+                                <option value="design">Graphic Design</option>
+                                <option value="content">Content Creation</option>
+                                <option value="video">Video Production</option>
+                                <option value="ads">Ad Creative</option>
+                                <option value="web">Web Development</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="block text-sm font-semibold mb-2 text-gray-800">Project Description *</label>
+                            <textarea name="description" required rows="6" class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg focus:outline-none focus:border-primary-blue transition-colors duration-300 resize-none" placeholder="Tell us about your project..."></textarea>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="terms" required class="w-4 h-4">
+                            <label for="terms" class="text-sm text-gray-600">
+                                I agree to the <a href="#" class="text-accent-green hover:underline">terms and conditions</a>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="w-full px-6 py-3 bg-gradient-to-r from-primary-blue to-accent-green text-white font-bold rounded-lg hover:shadow-2xl hover:shadow-primary-blue/50 transition-all duration-300 transform hover:scale-105">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="animate-fade-in-up" style="animation-delay: 0.1s;">
+                <!-- Email -->
+                <div class="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary-blue to-accent-green rounded-lg flex items-center justify-center mb-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                            <path d="M3 7l9 6 9-6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Email</h3>
+                    <p class="text-gray-300 mb-3">Send us an email and we'll respond within 24 hours.</p>
+                    <a href="mailto:hello@cr8tiveiq.com" class="text-accent-green font-semibold hover:translate-x-2 transition-transform duration-300 inline-flex items-center gap-2">
+                        hello@cr8tiveiq.com
+                    </a>
+                </div>
+
+                <!-- Phone -->
+                <div class="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-accent-green to-primary-blue rounded-lg flex items-center justify-center mb-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 text-white" fill="currentColor">
+                            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24c1.12.37 2.33.57 3.54.57a1 1 0 011 1v3.5a1 1 0 01-1 1C10.07 22 2 13.93 2 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.21.2 2.42.57 3.54a1 1 0 01-.24 1.05l-2.2 2.2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Phone</h3>
+                    <p class="text-gray-300 mb-3">Call us during business hours (Mon-Fri, 9AM-6PM EST).</p>
+                    <a href="tel:+1234567890" class="text-accent-green font-semibold hover:translate-x-2 transition-transform duration-300 inline-flex items-center gap-2">
+                        +1 (234) 567-890
+                    </a>
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary-blue to-accent-green rounded-lg flex items-center justify-center mb-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 text-white" fill="currentColor">
+                            <path d="M20.52 3.48A11.8 11.8 0 0012.07 1 11.06 11.06 0 001 12.07a11.7 11.7 0 001.7 6L1 23l5-1.64a11.26 11.26 0 005.92 1.63h.05A11.05 11.05 0 0023 12.07a11 11 0 00-2.48-8.59zM12 20.2a9 9 0 01-4.59-1.26l-.33-.2-3 .98 1-2.9-.22-.34a9 9 0 1115.8-4.78A9 9 0 0112 20.2zm5.12-6.05c-.28-.14-1.64-.81-1.89-.9s-.44-.14-.63.14-.72.9-.88 1.09-.33.21-.61.07a7.49 7.49 0 01-2.21-1.36 8.3 8.3 0 01-1.54-1.91c-.16-.28 0-.43.12-.59s.28-.33.42-.5a2 2 0 00.28-.47.52.52 0 000-.49c0-.13-.61-1.48-.84-2s-.45-.44-.62-.45h-.52a1 1 0 00-.73.34 3.05 3.05 0 00-.95 2.27 5.3 5.3 0 001.11 2.82 12.13 12.13 0 004.65 4 4.2 4.2 0 002.54.87 2.21 2.21 0 001.45-.51 2.66 2.66 0 00.61-1.73c0-.17 0-.31-.05-.43s-.18-.12-.39-.22z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-white">WhatsApp</h3>
+                    <p class="text-gray-300 mb-3">Chat with us on WhatsApp for quick responses.</p>
+                    <a href="https://wa.me/1234567890" class="text-accent-green font-semibold hover:translate-x-2 transition-transform duration-300 inline-flex items-center gap-2">
+                        Start Chat
+                    </a>
+                </div>
+
+                <!-- Office -->
+                <div class="bg-[#1A1A1A] border border-gray-800 rounded-xl p-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-accent-green to-primary-blue rounded-lg flex items-center justify-center mb-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 21s-6-5.33-6-10a6 6 0 1112 0c0 4.67-6 10-6 10z"></path>
+                            <circle cx="12" cy="11" r="2.5"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 text-white">Office</h3>
+                    <p class="text-gray-300">
+                        123 Creative Street<br>
+                        Design City, DC 12345<br>
+                        United States
+                    </p>
+                </div>
+
+                <!-- Social Links -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold mb-4 text-white">Follow Us</h3>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-12 h-12 rounded-lg bg-gray-800 hover:bg-primary-blue flex items-center justify-center transition-colors duration-300" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="currentColor">
+                                <path d="M9 8H6v4h3v12h5V12h3.64l.36-4H14V6.33c0-.96.19-1.33 1.12-1.33H18V0h-3.81C10.61 0 9 1.58 9 4.62V8z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-lg bg-gray-800 hover:bg-primary-blue flex items-center justify-center transition-colors duration-300" aria-label="Twitter X">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="currentColor">
+                                <path d="M18.9 2H15l-3 4.5L8.4 2H2l7.5 10L2.6 22H6l3.6-5.3L13.6 22H22l-7.9-10L22 2h-3.1z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-lg bg-gray-800 hover:bg-primary-blue flex items-center justify-center transition-colors duration-300" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="currentColor">
+                                <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5C0 2.12 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7 0h3.9v2.05h.06C12.2 8.83 13.86 8 15.5 8 19 8 22 10.42 22 15.15V23h-4v-6.34c0-1.51-.03-3.46-2.11-3.46-2.12 0-2.44 1.66-2.44 3.36V23h-4V8z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-lg bg-gray-800 hover:bg-primary-blue flex items-center justify-center transition-colors duration-300" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="currentColor">
+                                <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.75 15.5v-7L16 12l-6.25 3.5z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 bg-dark-card relative overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary-blue/10 rounded-full blur-3xl"></div>
+    
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary-blue to-accent-green bg-clip-text text-transparent">Frequently Asked Questions</span>
+            </h2>
+        </div>
+
+        <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <div class="bg-dark-bg border border-gray-800 rounded-xl overflow-hidden hover:border-primary-blue transition-all duration-300 animate-fade-in-up">
+                <button class="w-full px-6 py-4 flex items-center justify-between hover:bg-dark-card transition-colors duration-300 faq-toggle">
+                    <span class="text-lg font-bold">What is your typical project timeline?</span>
+                    <span class="text-2xl">+</span>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    <p>Project timelines vary depending on scope and complexity. Most projects take 2-8 weeks. We'll provide a detailed timeline during the consultation phase.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="bg-dark-bg border border-gray-800 rounded-xl overflow-hidden hover:border-primary-blue transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.1s;">
+                <button class="w-full px-6 py-4 flex items-center justify-between hover:bg-dark-card transition-colors duration-300 faq-toggle">
+                    <span class="text-lg font-bold">Do you offer revisions?</span>
+                    <span class="text-2xl">+</span>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    <p>Yes! We include unlimited revisions until you're completely satisfied with the final deliverables. Your satisfaction is our priority.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="bg-dark-bg border border-gray-800 rounded-xl overflow-hidden hover:border-primary-blue transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <button class="w-full px-6 py-4 flex items-center justify-between hover:bg-dark-card transition-colors duration-300 faq-toggle">
+                    <span class="text-lg font-bold">What's your pricing structure?</span>
+                    <span class="text-2xl">+</span>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    <p>We offer flexible pricing based on project scope. We can work with fixed-price projects, hourly rates, or retainer agreements. Let's discuss what works best for you.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="bg-dark-bg border border-gray-800 rounded-xl overflow-hidden hover:border-primary-blue transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.3s;">
+                <button class="w-full px-6 py-4 flex items-center justify-between hover:bg-dark-card transition-colors duration-300 faq-toggle">
+                    <span class="text-lg font-bold">Can you work with our existing team?</span>
+                    <span class="text-2xl">+</span>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    <p>Absolutely! We love collaborating with in-house teams. We can integrate seamlessly with your existing workflow and processes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // FAQ Toggle
+    document.querySelectorAll('.faq-toggle').forEach(button => {
+        button.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const toggle = this.querySelector('.text-2xl');
+            
+            content.classList.toggle('hidden');
+            toggle.textContent = content.classList.contains('hidden') ? '+' : '−';
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% if GA_MEASUREMENT_ID %}
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ GA_MEASUREMENT_ID }}', {
+    'page_path': window.location.pathname,
+    'page_title': document.title,
+    'page_location': window.location.href,
+  });
+  
+  // Track page view event
+  gtag('event', 'page_view', {
+    'page_title': document.title,
+    'page_path': window.location.pathname,
+    'page_location': window.location.href,
+  });
+  
+  // Track portfolio item views
+  document.addEventListener('DOMContentLoaded', function() {
+    // Track portfolio item clicks on portfolio list page
+    const portfolioItems = document.querySelectorAll('[data-portfolio-id]');
+    portfolioItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        const portfolioId = this.getAttribute('data-portfolio-id');
+        const portfolioTitle = this.getAttribute('data-portfolio-title');
+        const portfolioCategory = this.getAttribute('data-portfolio-category');
+        
+        // Send to GA4
+        gtag('event', 'portfolio_view', {
+          'portfolio_id': portfolioId,
+          'portfolio_title': portfolioTitle,
+          'portfolio_category': portfolioCategory,
+          'page_path': window.location.pathname,
+        });
+        
+        // Send to backend API for database storage
+        fetch('/portfolio/api/track-click/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            portfolio_id: portfolioId,
+            portfolio_title: portfolioTitle,
+            portfolio_category: portfolioCategory,
+          })
+        }).catch(err => console.error('Portfolio tracking error:', err));
+      });
+    });
+    
+    // Track portfolio detail page views
+    const portfolioDetail = document.querySelector('[data-portfolio-detail]');
+    if (portfolioDetail) {
+      const portfolioId = portfolioDetail.getAttribute('data-portfolio-id');
+      const portfolioTitle = portfolioDetail.getAttribute('data-portfolio-title');
+      const portfolioCategory = portfolioDetail.getAttribute('data-portfolio-category');
+      
+      gtag('event', 'portfolio_view', {
+        'portfolio_id': portfolioId,
+        'portfolio_title': portfolioTitle,
+        'portfolio_category': portfolioCategory,
+        'page_path': window.location.pathname,
+      });
+    }
+    
+    // Track form submissions
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+      form.addEventListener('submit', function(e) {
+        const formName = form.getAttribute('name') || form.getAttribute('id') || 'unknown';
+        const formId = form.getAttribute('id') || '';
+        // Count all form fields (input, textarea, select) excluding CSRF token
+        const fieldCount = form.querySelectorAll('input:not([name="csrfmiddlewaretoken"]), textarea, select').length;
+        
+        // Send to GA4 with all required parameters
+        gtag('event', 'form_submit', {
+          'form_name': formName,
+          'form_id': formId,
+          'field_count': fieldCount,
+          'page_path': window.location.pathname,
+          'page_title': document.title,
+          'page_location': window.location.href,
+        });
+      });
+    });
+    
+    // Track CTA button clicks
+    trackCtaClicks();
+  });
+  
+  /**
+   * Track CTA button clicks
+   * Sends events to both GA4 and backend database
+   */
+  function trackCtaClicks() {
+    // Get or create session ID
+    let sessionId = sessionStorage.getItem('analytics_session_id');
+    if (!sessionId) {
+      sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      sessionStorage.setItem('analytics_session_id', sessionId);
+    }
+    
+    // Track all CTA button clicks (buttons with btn-primary or btn-secondary classes)
+    const ctaButtons = document.querySelectorAll('.btn-primary, .btn-secondary, [data-cta="true"]');
+    
+    ctaButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        const buttonText = this.textContent.trim();
+        const buttonUrl = this.href || this.getAttribute('data-url') || '';
+        const buttonClass = this.className || '';
+        
+        // Send to GA4
+        gtag('event', 'cta_click', {
+          'button_text': buttonText,
+          'button_url': buttonUrl,
+          'button_class': buttonClass,
+          'page_path': window.location.pathname,
+        });
+        
+        // Send to backend for database storage
+        fetch('/analytics/track-cta-click/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            button_text: buttonText,
+            button_url: buttonUrl,
+            button_class: buttonClass,
+            page_url: window.location.pathname,
+            user_session_id: sessionId,
+          })
+        }).catch(error => console.log('CTA tracking error:', error));
+      });
+    });
+  }
+</script>
+{% endif %}

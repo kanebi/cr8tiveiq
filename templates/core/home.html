@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - CR8TIVEIQ{% endblock %}
+{% block description %}Transform your digital presence with CR8TIVEIQ - Your creative partner for digital excellence.{% endblock %}
+
+{% block content %}
+<section class="bg-gray-50 pt-32 pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4 leading-tight">
+                Transform Your Digital Presence
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                We're a creative powerhouse transforming brands through innovative design, strategic content, and cutting-edge digital solutions
+            </p>
+        </div>
+        <div class="grid grid-cols-12 gap-6 items-stretch mt-10">
+            <div class="col-span-12 md:col-span-3 space-y-6">
+                <div class="rounded-2xl p-6 bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-lg">
+                    <div class="text-4xl font-extrabold">50+</div>
+                    <div class="mt-1 font-medium">Projects Completed</div>
+                </div>
+                <div class="rounded-2xl p-6 bg-gray-900 text-white shadow-lg hidden md:block">
+                    <div class="text-4xl font-extrabold">15+</div>
+                    <div class="mt-1 font-medium">Creative People</div>
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-6">
+                <div class="grid grid-cols-2 gap-6 h-full">
+                    <div class="rounded-3xl overflow-hidden shadow-lg">
+                        <img src="{% static 'images/home-hero-1.jpeg' %}" alt="Creative workspace" class="w-full h-full object-cover">
+                    </div>
+                    <div class="rounded-3xl overflow-hidden shadow-lg">
+                        <img src="{% static 'images/home-&-about-hero.jpeg' %}" alt="Team collaboration" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-3 space-y-6">
+                <div class="rounded-2xl p-6 bg-gradient-to-r from-accent-green to-green-400 text-gray-900 shadow-lg">
+                    <div class="text-4xl font-extrabold">3+</div>
+                    <div class="mt-1 font-semibold">Years Experience</div>
+                </div>
+                <div class="rounded-2xl p-6 bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-lg">
+                    <div class="text-4xl font-extrabold">98%</div>
+                    <div class="mt-1 font-medium">Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-transparent py-6 -mt-6">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gray-900 text-white rounded-[28px] p-8 md:p-12 shadow-2xl">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
+                <div class="lg:col-span-2">
+                    <div class="text-white/80 text-sm font-semibold mb-3 uppercase tracking-wider">About Us</div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-4 leading-snug">
+                        Empowering Brands Through Creative Excellence
+                    </h2>
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                        Since our inception, we've been dedicated to helping brands of all sizes unleash their full potential through innovative design, strategic thinking, and unparalleled craftsmanship.
+                    </p>
+                    <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                        We believe that great design and strategic thinking go hand-in-hand. Every project we undertake is approached with the same level of dedication and creativity.
+                    </p>
+                    <a href="{% url 'core:about' %}" class="inline-block px-6 py-3 bg-white text-gray-900 font-bold rounded-full hover:shadow-xl transition-all duration-300">
+                        VIEW MORE
+                    </a>
+                </div>
+                <div class="relative">
+                    <img src="{% static 'images/home-&-about-hero.jpeg' %}" alt="Team working" class="rounded-3xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+            <div>
+                <div class="text-primary-blue text-sm font-semibold mb-3 uppercase tracking-wider">Most Liked Service</div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                    Elevate Your Brand with Our Signature Services
+                </h2>
+            </div>
+            <div>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    At CR8TIVEIQ, we're committed to providing our clients with the tools they need to succeed in today's competitive marketplace. From cutting-edge design and development services to strategic consulting and branding solutions.
+                </p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="flex items-start gap-5 p-6 rounded-2xl border border-gray-100 hover:border-primary-blue/40 transition">
+                <div class="text-5xl font-extrabold text-gray-200 leading-none">01</div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Brand Management</h3>
+                    <p class="text-gray-600">
+                        Our team of experts works closely with clients to develop a customized brand strategy that aligns with their business objectives and resonates with their target audience.
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-start gap-5 p-6 rounded-2xl border border-gray-100 hover:border-primary-blue/40 transition">
+                <div class="text-5xl font-extrabold text-gray-200 leading-none">02</div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Social Media Management</h3>
+                    <p class="text-gray-600">
+                        At CR8TIVEIQ, we specialize in delivering tailored social media solutions that drive results and help our clients achieve their business goals.
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-start gap-5 p-6 rounded-2xl border border-gray-100 hover:border-primary-blue/40 transition">
+                <div class="text-5xl font-extrabold text-gray-200 leading-none">03</div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Graphic Design</h3>
+                    <p class="text-gray-600">
+                        Eye-catching designs that capture attention and communicate your message effectively across all mediums, from print to digital.
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-start gap-5 p-6 rounded-2xl border border-gray-100 hover:border-primary-blue/40 transition">
+                <div class="text-5xl font-extrabold text-gray-200 leading-none">04</div>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Web Development</h3>
+                    <p class="text-gray-600">
+                        Build fast, responsive, and beautiful websites that deliver exceptional user experiences and drive conversions for your business.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-gray-900 text-white py-20 rounded-t-[80px] -mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <div class="text-primary-blue text-sm font-semibold mb-4 uppercase tracking-wider">Why Choose Us</div>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Unlock Your Brand's Potential
+            </h2>
+            <a href="{% url 'contact:form' %}" class="inline-block px-8 py-4 bg-gradient-to-r from-primary-blue to-accent-green text-white font-bold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                CONTACT US
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+            <div class="relative rounded-3xl overflow-hidden shadow-lg group">
+                <img src="{% static 'images/home-hero-1.jpeg' %}" alt="Experience" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary-blue to-blue-600 opacity-90"></div>
+                <div class="absolute top-6 left-6">
+                    <div class="text-5xl font-bold">01</div>
+                </div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div class="bg-white text-gray-900 px-4 py-2 rounded-full inline-block font-semibold">
+                        Experience
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative rounded-3xl overflow-hidden shadow-lg group">
+                <img src="{% static 'images/home-&-about-hero.jpeg' %}" alt="Creativity" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
+                <div class="absolute top-6 left-6">
+                    <div class="text-5xl font-bold">02</div>
+                </div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div class="bg-white text-gray-900 px-4 py-2 rounded-full inline-block font-semibold">
+                        Creativity
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative rounded-3xl overflow-hidden shadow-lg group">
+                <img src="{% static 'images/home-hero-1.jpeg' %}" alt="Collaboration" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary-blue to-blue-600 opacity-90"></div>
+                <div class="absolute top-6 left-6">
+                    <div class="text-5xl font-bold">03</div>
+                </div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div class="bg-white text-gray-900 px-4 py-2 rounded-full inline-block font-semibold">
+                        Collaboration
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative rounded-3xl overflow-hidden shadow-lg group">
+                <img src="{% static 'images/home-&-about-hero.jpeg' %}" alt="Results" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gray-900 opacity-80"></div>
+                <div class="absolute top-6 left-6">
+                    <div class="text-5xl font-bold">04</div>
+                </div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div class="bg-white text-gray-900 px-4 py-2 rounded-full inline-block font-semibold">
+                        Results
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="{% cycle 'bg-gray-100' 'bg-gray-900 text-white' 'bg-gradient-to-r from-primary-blue to-accent-green text-white' %} rounded-3xl p-8 shadow-lg">
+                <div class="flex gap-1 mb-6">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= testimonial.rating %}
+                        <svg viewBox="0 0 24 24" class="w-5 h-5 text-yellow-400" fill="currentColor"><path d="M12 2l3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.77 5.82 21l1.18-6.87-5-4.87 6.91-1z"/></svg>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <p class="{% if 'bg-gray-100' in forloop.cycle %}text-gray-700{% else %}text-gray-300{% endif %} text-lg mb-6 leading-relaxed">
+                    "{{ testimonial.testimonial_text }}"
+                </p>
+                <div class="flex items-center gap-4">
+                    {% if testimonial.photo %}
+                    <img src="{{ testimonial.photo.url }}" alt="{{ testimonial.client_name }}" class="w-16 h-16 rounded-full object-cover">
+                    {% else %}
+                    <div class="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 font-bold text-xl">
+                        {{ testimonial.client_name|first }}
+                    </div>
+                    {% endif %}
+                    <div>
+                        <div class="font-bold {% if 'bg-gray-100' in forloop.cycle %}text-gray-900{% else %}text-white{% endif %}">{{ testimonial.client_name }}</div>
+                        <div class="{% if 'bg-gray-100' in forloop.cycle %}text-gray-600{% elif 'bg-gray-900' in forloop.cycle %}text-gray-400{% else %}text-white/80{% endif %} text-sm">
+                            {% if testimonial.role %}{{ testimonial.role }}{% endif %}{% if testimonial.role and testimonial.company %}, {% endif %}{% if testimonial.company %}{{ testimonial.company }}{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center text-gray-500">
+                <p>No testimonials available yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="bg-gray-900 text-white py-20 rounded-t-[80px] -mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            Ready to take your brand to new heights of success?
+        </h2>
+        <p class="text-xl text-gray-300 mb-8">
+            Let's Get Started Today!
+        </p>
+        <a href="{% url 'contact:form' %}" class="inline-block px-8 py-4 bg-gradient-to-r from-primary-blue to-accent-green text-white font-bold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            CONTACT US
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - CR8TIVEIQ{% endblock %}
+{% block description %}Learn about CR8TIVEIQ, our mission, values, and the talented team behind our creative solutions.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-gradient-to-br from-gray-50 via-white to-white pt-40 pb-20 relative overflow-hidden">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-primary-blue/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-72 h-72 bg-accent-green/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center animate-fade-in-up">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4">
+                <span class="bg-gradient-to-r from-primary-blue to-accent-green bg-clip-text text-transparent">About CR8TIVEIQ</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Transforming brands through creativity, strategy, and innovation since 2016
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="animate-fade-in-up">
+                <h2 class="text-4xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-primary-blue to-accent-green bg-clip-text text-transparent">Our Story</span>
+                </h2>
+                <p class="text-gray-600 text-lg mb-4 leading-relaxed">
+                    CR8TIVEIQ was founded in 2016 with a simple mission: to help brands stand out in an increasingly crowded digital landscape. What started as a small team of passionate creatives has grown into a full-service digital agency serving clients across multiple industries.
+                </p>
+                <p class="text-gray-600 text-lg mb-4 leading-relaxed">
+                    We believe that great design and strategic thinking go hand-in-hand. Every project we undertake is approached with the same level of dedication and creativity, regardless of size or scope.
+                </p>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    Today, we're proud to have worked with over 50 clients and completed 150+ projects that have made a real impact on their businesses.
+                </p>
+            </div>
+            <div class="rounded-3xl overflow-hidden shadow-2xl animate-slide-in-right">
+                <img src="{% static 'images/home-&-about-hero.jpeg' %}" alt="Our Team" class="w-full h-96 object-cover">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Values -->
+<section class="py-20 bg-white relative overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary-blue/10 rounded-full blur-3xl"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Mission -->
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 animate-fade-in-up">
+                <div class="w-16 h-16 bg-gradient-to-br from-primary-blue to-accent-green rounded-lg flex items-center justify-center mb-6">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="8"></circle>
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"></circle>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white">Our Mission</h3>
+                <p class="text-gray-400">
+                    To empower brands with creative solutions that drive growth, engagement, and lasting impact in the digital world.
+                </p>
+            </div>
+
+            <!-- Vision -->
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+                <div class="w-16 h-16 bg-gradient-to-br from-accent-green to-primary-blue rounded-lg flex items-center justify-center mb-6">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                        <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"></circle>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white">Our Vision</h3>
+                <p class="text-gray-400">
+                    To be the most trusted creative partner for brands seeking innovative solutions and measurable results.
+                </p>
+            </div>
+
+            <!-- Values -->
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="w-16 h-16 bg-gradient-to-br from-primary-blue to-accent-green rounded-lg flex items-center justify-center mb-6">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-white" fill="currentColor">
+                        <path d="M12 3l4 4-4 6-4-6 4-4z"></path>
+                        <path d="M4 7l8 12 8-12H4z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-white">Our Values</h3>
+                <p class="text-gray-400">
+                    Creativity, integrity, collaboration, and excellence in everything we do.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% comment %} Team Section muted as requested {% endcomment %}
+
+{% comment %} Awards & Recognition Section muted as requested {% endcomment %}
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-primary-blue/10 to-accent-green/10 border-y border-primary-blue/20 relative overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary-blue/20 rounded-full blur-3xl"></div>
+    
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center animate-fade-in-up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Work Together?
+        </h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Let's discuss how we can help your brand achieve its goals and create lasting impact.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contact:form' %}" class="px-8 py-4 bg-gradient-to-r from-primary-blue to-accent-green text-black font-bold rounded-lg hover:shadow-2xl hover:shadow-primary-blue/50 transition-all duration-300 transform hover:scale-105">
+                Get In Touch
+            </a>
+            <a href="{% url 'portfolio:list' %}" class="px-8 py-4 border-2 border-accent-green text-accent-green font-bold rounded-lg hover:bg-accent-green/10 transition-all duration-300">
+                View Our Work
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

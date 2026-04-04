@@ -1,0 +1,213 @@
+{% load static %}
+<header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="{% url 'core:home' %}" class="flex items-center group">
+            <img src="{% static 'images/logo.png' %}" alt="CR8TIVEIQ Logo" class="h-10 w-auto transition-all duration-300 group-hover:scale-110">
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:flex items-center gap-10">
+            <a href="{% url 'core:home' %}" class="text-gray-900 hover:text-primary-blue transition-colors duration-300 font-medium text-sm uppercase tracking-wide">HOME</a>
+            <a href="{% url 'core:about' %}" class="text-gray-900 hover:text-primary-blue transition-colors duration-300 font-medium text-sm uppercase tracking-wide">ABOUT</a>
+            
+            <!-- Services Dropdown -->
+            <div class="relative group">
+                <a href="{% url 'services:list' %}" class="text-gray-900 hover:text-primary-blue transition-colors duration-300 font-medium text-sm uppercase tracking-wide flex items-center gap-1">
+                    SERVICES
+                    <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+                
+                <!-- Dropdown Menu -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                    <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden w-96">
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <h3 class="text-lg font-bold text-gray-900 mb-1">Our Services</h3>
+                                <p class="text-xs text-gray-500">Explore what we can do for you</p>
+                            </div>
+                            <div class="space-y-1">
+                                {% for service in header_services %}
+                                <a href="{% url 'services:detail' service.slug %}" class="block px-4 py-3 rounded-lg hover:bg-gradient-to-r hover:from-primary-blue/10 hover:to-accent-green/10 transition-all duration-300 group/item">
+                                    <div class="flex items-start gap-3">
+                                        <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-primary-blue to-accent-green flex items-center justify-center text-white text-sm font-bold">
+                                            {{ forloop.counter }}
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="font-semibold text-gray-900 text-sm group-hover/item:text-primary-blue transition-colors duration-300">{{ service.title }}</div>
+                                            <div class="text-xs text-gray-500 mt-0.5 line-clamp-1">{{ service.short_description|truncatewords:8 }}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                                {% empty %}
+                                <div class="text-center py-4 text-gray-500 text-sm">No services available</div>
+                                {% endfor %}
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <a href="{% url 'services:list' %}" class="block text-center px-4 py-2 bg-gradient-to-r from-primary-blue to-accent-green text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 text-sm">
+                                    View All Services
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="{% url 'blog:list' %}" class="text-gray-900 hover:text-primary-blue transition-colors duration-300 font-medium text-sm uppercase tracking-wide">BLOG</a>
+            <a href="{% url 'contact:form' %}" class="text-gray-900 hover:text-primary-blue transition-colors duration-300 font-medium text-sm uppercase tracking-wide">CONTACT</a>
+            <a href="{% url 'portfolio:list' %}" class="text-gray-900 hover:text-primary-blue transition-colors duration-300 font-medium text-sm uppercase tracking-wide">PORTFOLIO</a>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="hidden lg:block">
+            <a href="{% url 'contact:form' %}" class="px-8 py-3 bg-gradient-to-r from-primary-blue to-accent-green text-white font-bold rounded-full hover:shadow-xl hover:shadow-primary-blue/30 transition-all duration-300 transform hover:scale-105 text-sm uppercase tracking-wide">
+                GET IN TOUCH
+            </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button type="button" id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-blue" aria-label="Toggle mobile menu" aria-expanded="false">
+            <svg id="menu-icon-open" class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg id="menu-icon-close" class="w-6 h-6 text-gray-900 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-40 bg-white/70 backdrop-blur-md">
+        <!-- Close Button -->
+        <button type="button" id="mobile-menu-close" class="absolute top-8 right-8 p-3 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-all duration-300 hover:scale-110 transform z-50" aria-label="Close menu">
+            <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <div class="flex flex-col items-center justify-center h-full px-8 space-y-4">
+            <a href="{% url 'core:home' %}" class="block w-full max-w-md text-center text-gray-900 bg-white hover:bg-gradient-to-r hover:from-primary-blue hover:to-accent-green hover:text-white transition-all duration-300 font-bold py-4 px-6 rounded-2xl text-base uppercase tracking-wide shadow-lg hover:shadow-2xl hover:scale-105 transform">
+                HOME
+            </a>
+            <a href="{% url 'core:about' %}" class="block w-full max-w-md text-center text-gray-900 bg-white hover:bg-gradient-to-r hover:from-primary-blue hover:to-accent-green hover:text-white transition-all duration-300 font-bold py-4 px-6 rounded-2xl text-base uppercase tracking-wide shadow-lg hover:shadow-2xl hover:scale-105 transform">
+                ABOUT
+            </a>
+            <a href="{% url 'services:list' %}" class="block w-full max-w-md text-center text-gray-900 bg-white hover:bg-gradient-to-r hover:from-primary-blue hover:to-accent-green hover:text-white transition-all duration-300 font-bold py-4 px-6 rounded-2xl text-base uppercase tracking-wide shadow-lg hover:shadow-2xl hover:scale-105 transform">
+                SERVICES
+            </a>
+            <a href="{% url 'blog:list' %}" class="block w-full max-w-md text-center text-gray-900 bg-white hover:bg-gradient-to-r hover:from-primary-blue hover:to-accent-green hover:text-white transition-all duration-300 font-bold py-4 px-6 rounded-2xl text-base uppercase tracking-wide shadow-lg hover:shadow-2xl hover:scale-105 transform">
+                BLOG
+            </a>
+            <a href="{% url 'contact:form' %}" class="block w-full max-w-md text-center text-gray-900 bg-white hover:bg-gradient-to-r hover:from-primary-blue hover:to-accent-green hover:text-white transition-all duration-300 font-bold py-4 px-6 rounded-2xl text-base uppercase tracking-wide shadow-lg hover:shadow-2xl hover:scale-105 transform">
+                CONTACT
+            </a>
+            <a href="{% url 'portfolio:list' %}" class="block w-full max-w-md text-center text-gray-900 bg-white hover:bg-gradient-to-r hover:from-primary-blue hover:to-accent-green hover:text-white transition-all duration-300 font-bold py-4 px-6 rounded-2xl text-base uppercase tracking-wide shadow-lg hover:shadow-2xl hover:scale-105 transform">
+                PORTFOLIO
+            </a>
+            <a href="{% url 'contact:form' %}" class="block w-full max-w-md text-center px-8 py-4 bg-gradient-to-r from-primary-blue to-accent-green text-white font-bold rounded-2xl text-base uppercase tracking-wide shadow-xl hover:shadow-2xl hover:scale-105 transform transition-all duration-300 mt-4">
+                GET IN TOUCH
+            </a>
+        </div>
+    </div>
+</header>
+
+<script>
+// Mobile menu functionality - runs immediately when script loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Mobile menu script loaded');
+    
+    var mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    var mobileMenu = document.getElementById('mobile-menu');
+    var mobileMenuClose = document.getElementById('mobile-menu-close');
+    var menuIconOpen = document.getElementById('menu-icon-open');
+    var menuIconClose = document.getElementById('menu-icon-close');
+
+    console.log('Elements found:', {
+        btn: !!mobileMenuBtn,
+        menu: !!mobileMenu,
+        closeBtn: !!mobileMenuClose,
+        iconOpen: !!menuIconOpen,
+        iconClose: !!menuIconClose
+    });
+
+    if (!mobileMenuBtn || !mobileMenu || !mobileMenuClose || !menuIconOpen || !menuIconClose) {
+        console.error('Mobile menu elements not found');
+        return;
+    }
+
+    // Toggle menu function
+    function toggleMenu() {
+        console.log('Toggle menu clicked');
+        var isHidden = mobileMenu.classList.contains('hidden');
+        console.log('Menu is hidden:', isHidden);
+        
+        if (isHidden) {
+            // Show menu
+            mobileMenu.classList.remove('hidden');
+            menuIconOpen.classList.add('hidden');
+            menuIconClose.classList.remove('hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden'; // Prevent body scroll
+            console.log('Menu opened');
+        } else {
+            // Hide menu
+            mobileMenu.classList.add('hidden');
+            menuIconOpen.classList.remove('hidden');
+            menuIconClose.classList.add('hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = ''; // Restore body scroll
+            console.log('Menu closed');
+        }
+    }
+
+    // Close menu function
+    function closeMenu() {
+        mobileMenu.classList.add('hidden');
+        menuIconOpen.classList.remove('hidden');
+        menuIconClose.classList.add('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = ''; // Restore body scroll
+    }
+
+    // Button click event
+    mobileMenuBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMenu();
+    });
+
+    // Close button click event
+    mobileMenuClose.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMenu();
+    });
+
+    // Close menu when clicking on links
+    var menuLinks = mobileMenu.querySelectorAll('a');
+    menuLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            closeMenu();
+        });
+    });
+
+    // Close menu when clicking on the backdrop
+    mobileMenu.addEventListener('click', function(e) {
+        // Only close if clicking directly on the menu backdrop, not on links or close button
+        if (e.target === mobileMenu) {
+            closeMenu();
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+            closeMenu();
+        }
+    });
+
+    console.log('Mobile menu initialized successfully');
+});
+</script>

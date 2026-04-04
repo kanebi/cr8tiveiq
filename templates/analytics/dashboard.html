@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load analytics_filters %}
+
+{% block title %}Analytics Dashboard - CR8TIVEIQ{% endblock %}
+{% block description %}Analytics dashboard for CR8TIVEIQ team members.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/analytics-dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="analytics-dashboard">
+    <div class="dashboard-header">
+        <h1>Analytics Dashboard</h1>
+        <p class="subtitle">Track user behavior and website performance</p>
+    </div>
+
+    <!-- Key Metrics Section -->
+    <section class="metrics-section">
+        <div class="metrics-grid">
+            <!-- Total Events -->
+            <div class="metric-card">
+                <div class="metric-icon">📊</div>
+                <div class="metric-content">
+                    <h3 class="metric-label">Total Events</h3>
+                    <p class="metric-value">{{ total_events }}</p>
+                </div>
+            </div>
+
+            <!-- Unique Sessions -->
+            <div class="metric-card">
+                <div class="metric-icon">👥</div>
+                <div class="metric-content">
+                    <h3 class="metric-label">Unique Sessions</h3>
+                    <p class="metric-value">{{ unique_sessions }}</p>
+                </div>
+            </div>
+
+            <!-- Events Last 7 Days -->
+            <div class="metric-card">
+                <div class="metric-icon">📈</div>
+                <div class="metric-content">
+                    <h3 class="metric-label">Events (Last 7 Days)</h3>
+                    <p class="metric-value">{{ events_last_7_days }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Breakdown Section -->
+    <section class="event-breakdown-section">
+        <h2>Event Breakdown by Type</h2>
+        <div class="breakdown-grid">
+            {% for event in event_breakdown %}
+            <div class="breakdown-card">
+                <div class="breakdown-header">
+                    <h3>{{ event.event_type|title }}</h3>
+                    <span class="breakdown-count">{{ event.count }}</span>
+                </div>
+                <div class="breakdown-bar">
+                    <div class="breakdown-fill" data-width="{{ event.count|percentage:total_events }}"></div>
+                </div>
+                <p class="breakdown-percentage">{{ event.count|percentage:total_events }}%</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Top Pages Section -->
+    <section class="top-pages-section">
+        <h2>Top Pages</h2>
+        <div class="table-container">
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>Page URL</th>
+                        <th>Views</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for page in top_pages %}
+                    <tr>
+                        <td class="page-url">{{ page.page_url }}</td>
+                        <td class="page-count">{{ page.count }}</td>
+                        <td class="page-percentage">{{ page.count|percentage:total_events }}%</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="empty-message">No page view data available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Recent Events Section -->
+    <section class="recent-events-section">
+        <h2>Recent Events</h2>
+        <div class="table-container">
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>Event Type</th>
+                        <th>Page URL</th>
+                        <th>Session ID</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in recent_events %}
+                    <tr>
+                        <td class="event-type">
+                            <span class="event-badge event-{{ event.event_type }}">
+                                {{ event.event_type|title }}
+                            </span>
+                        </td>
+                        <td class="event-url">{{ event.page_url }}</td>
+                        <td class="event-session">{{ event.user_session_id|truncatechars:20 }}</td>
+                        <td class="event-time">{{ event.created_at|date:"M d, Y H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-message">No events recorded yet</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/analytics-dashboard.js' %}"></script>
+{% endblock %}

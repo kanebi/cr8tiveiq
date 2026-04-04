@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Newsletter Subscription</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f5f5f5;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #165EFE 0%, #0d47a1 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        
+        .greeting strong {
+            color: #165EFE;
+        }
+        
+        .message-box {
+            background-color: #f9f9f9;
+            border-left: 4px solid #C6FF34;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+            line-height: 1.8;
+        }
+        
+        .message-box p {
+            color: #555555;
+            margin: 10px 0;
+        }
+        
+        .message-box p:first-child {
+            margin-top: 0;
+        }
+        
+        .message-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #165EFE;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #333333;
+            min-width: 120px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #666666;
+            word-break: break-word;
+            flex: 1;
+        }
+        
+        .confirmation-section {
+            background-color: #f0f7ff;
+            border: 2px solid #165EFE;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .confirmation-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #165EFE;
+            margin-bottom: 15px;
+        }
+        
+        .confirmation-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #165EFE 0%, #0d47a1 100%);
+            color: #ffffff;
+            padding: 14px 40px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(22, 94, 254, 0.3);
+        }
+        
+        .confirmation-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(22, 94, 254, 0.4);
+        }
+        
+        .confirmation-text {
+            font-size: 12px;
+            color: #999999;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+        
+        .benefits-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 25px 0;
+        }
+        
+        .benefits-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #165EFE;
+            margin-bottom: 12px;
+        }
+        
+        .benefits-section ul {
+            margin-left: 20px;
+            color: #555555;
+        }
+        
+        .benefits-section li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .contact-info {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .contact-info p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #555555;
+        }
+        
+        .contact-info a {
+            color: #165EFE;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px 30px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #999999;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        .social-links {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+            color: #165EFE;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .accent-green {
+            color: #C6FF34;
+        }
+        
+        @media (max-width: 600px) {
+            .email-container {
+                border-radius: 0;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                min-width: auto;
+                margin-bottom: 5px;
+            }
+            
+            .message-box {
+                padding: 15px;
+            }
+            
+            .confirmation-section {
+                padding: 20px;
+            }
+            
+            .confirmation-button {
+                padding: 12px 30px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Welcome to Our Newsletter!</h1>
+            <p>Confirm your subscription to stay updated</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <div class="greeting">
+                Hi there,
+            </div>
+            
+            <!-- Main Message -->
+            <div class="message-box">
+                <p>Thank you for subscribing to the CR8TIVEIQ newsletter! We're thrilled to have you join our community.</p>
+                <p>To complete your subscription and start receiving our latest insights, creative work, and industry updates, please confirm your email address by clicking the button below.</p>
+            </div>
+            
+            <!-- Confirmation Section -->
+            <div class="confirmation-section">
+                <h3>Confirm Your Subscription</h3>
+                <a href="{{ confirmation_link }}" class="confirmation-button">Verify Email Address</a>
+                <div class="confirmation-text">
+                    <p>This link will expire in 48 hours. If you didn't subscribe to our newsletter, you can safely ignore this email.</p>
+                </div>
+            </div>
+            
+            <!-- Subscription Details -->
+            <div class="section">
+                <div class="section-title">Subscription Details</div>
+                
+                <div class="info-row">
+                    <div class="info-label">Email:</div>
+                    <div class="info-value">{{ email }}</div>
+                </div>
+                
+                <div class="info-row">
+                    <div class="info-label">Subscribed:</div>
+                    <div class="info-value">{{ subscription_date|date:"F j, Y" }}</div>
+                </div>
+            </div>
+            
+            <!-- What to Expect -->
+            <div class="benefits-section">
+                <h3>What You'll Receive</h3>
+                <ul>
+                    <li>Exclusive insights on creative trends and industry best practices</li>
+                    <li>Behind-the-scenes looks at our latest projects and case studies</li>
+                    <li>Tips and strategies for digital marketing and brand growth</li>
+                    <li>Special offers and early access to new services</li>
+                    <li>Inspiring content to fuel your creative journey</li>
+                </ul>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <p style="font-weight: 600; margin-bottom: 12px;">Have questions?</p>
+                <p>
+                    Email: <a href="mailto:hello@cr8tiveiq.com">hello@cr8tiveiq.com</a>
+                </p>
+                <p>
+                    Phone: <a href="tel:+1234567890">+1 (234) 567-890</a>
+                </p>
+            </div>
+            
+            <!-- Closing Message -->
+            <div class="message-box" style="background-color: #f0f7ff; border-left-color: #165EFE;">
+                <p>We're excited to share our creative journey with you. Thank you for being part of the CR8TIVEIQ community!</p>
+                <p style="margin-top: 15px; font-weight: 500;">Best regards,<br>The CR8TIVEIQ Team</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>CR8TIVEIQ - Creative Digital Solutions</p>
+            <div class="social-links">
+                <a href="https://instagram.com/cr8tiveiq">Instagram</a>
+                <a href="https://linkedin.com/company/cr8tiveiq">LinkedIn</a>
+                <a href="https://twitter.com/cr8tiveiq">Twitter</a>
+                <a href="https://facebook.com/cr8tiveiq">Facebook</a>
+            </div>
+            <p style="margin-top: 15px; color: #cccccc;">© 2024 CR8TIVEIQ. All rights reserved.</p>
+            <p style="margin-top: 10px;">
+                <a href="{{ unsubscribe_link }}" style="color: #999999; text-decoration: none; font-size: 11px;">Unsubscribe from this newsletter</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Received Your Inquiry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f5f5f5;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #165EFE 0%, #0d47a1 100%);
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        
+        .greeting strong {
+            color: #165EFE;
+        }
+        
+        .message-box {
+            background-color: #f9f9f9;
+            border-left: 4px solid #C6FF34;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+            line-height: 1.8;
+        }
+        
+        .message-box p {
+            color: #555555;
+            margin: 10px 0;
+        }
+        
+        .message-box p:first-child {
+            margin-top: 0;
+        }
+        
+        .message-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #165EFE;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #333333;
+            min-width: 120px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #666666;
+            word-break: break-word;
+            flex: 1;
+        }
+        
+        .next-steps {
+            background-color: #f0f7ff;
+            border: 1px solid #d0e8ff;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 25px 0;
+        }
+        
+        .next-steps h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #165EFE;
+            margin-bottom: 12px;
+        }
+        
+        .next-steps ol {
+            margin-left: 20px;
+            color: #555555;
+        }
+        
+        .next-steps li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .contact-info {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .contact-info p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #555555;
+        }
+        
+        .contact-info a {
+            color: #165EFE;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px 30px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #999999;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        .social-links {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+            color: #165EFE;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .accent-green {
+            color: #C6FF34;
+        }
+        
+        @media (max-width: 600px) {
+            .email-container {
+                border-radius: 0;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                min-width: auto;
+                margin-bottom: 5px;
+            }
+            
+            .message-box {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Thank You!</h1>
+            <p>We've received your inquiry</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Greeting -->
+            <div class="greeting">
+                Hi <strong>{{ inquiry.name }}</strong>,
+            </div>
+            
+            <!-- Main Message -->
+            <div class="message-box">
+                <p>Thank you for reaching out to CR8TIVEIQ! We're excited to learn more about your project and how we can help bring your vision to life.</p>
+                <p>We've received your inquiry and will review it carefully. Our team will get back to you shortly with next steps and any questions we may have.</p>
+            </div>
+            
+            <!-- Inquiry Summary -->
+            <div class="section">
+                <div class="section-title">Your Inquiry Summary</div>
+                
+                <div class="info-row">
+                    <div class="info-label">Name:</div>
+                    <div class="info-value">{{ inquiry.name }}</div>
+                </div>
+                
+                <div class="info-row">
+                    <div class="info-label">Email:</div>
+                    <div class="info-value">{{ inquiry.email }}</div>
+                </div>
+                
+                {% if inquiry.company %}
+                <div class="info-row">
+                    <div class="info-label">Company:</div>
+                    <div class="info-value">{{ inquiry.company }}</div>
+                </div>
+                {% endif %}
+                
+                {% if inquiry.service_type %}
+                <div class="info-row">
+                    <div class="info-label">Service Interest:</div>
+                    <div class="info-value">{{ inquiry.service_type }}</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h3>What Happens Next?</h3>
+                <ol>
+                    <li>Our team reviews your inquiry and project details</li>
+                    <li>We'll reach out to discuss your needs and goals</li>
+                    <li>We'll provide a customized proposal and timeline</li>
+                    <li>Let's create something amazing together!</li>
+                </ol>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <p style="font-weight: 600; margin-bottom: 12px;">Have questions in the meantime?</p>
+                <p>
+                    Email: <a href="mailto:hello@cr8tiveiq.com">hello@cr8tiveiq.com</a>
+                </p>
+                <p>
+                    Phone: <a href="tel:+1234567890">+1 (234) 567-890</a>
+                </p>
+            </div>
+            
+            <!-- Closing Message -->
+            <div class="message-box" style="background-color: #f0f7ff; border-left-color: #165EFE;">
+                <p>We appreciate your interest in CR8TIVEIQ and look forward to collaborating with you!</p>
+                <p style="margin-top: 15px; font-weight: 500;">Best regards,<br>The CR8TIVEIQ Team</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>CR8TIVEIQ - Creative Digital Solutions</p>
+            <div class="social-links">
+                <a href="https://instagram.com/cr8tiveiq">Instagram</a>
+                <a href="https://linkedin.com/company/cr8tiveiq">LinkedIn</a>
+                <a href="https://twitter.com/cr8tiveiq">Twitter</a>
+                <a href="https://facebook.com/cr8tiveiq">Facebook</a>
+            </div>
+            <p style="margin-top: 15px; color: #cccccc;">© 2024 CR8TIVEIQ. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

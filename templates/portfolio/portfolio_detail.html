@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} - CR8TIVEIQ{% endblock %}
+
+{% block content %}
+<section class="bg-gray-50 pt-32 pb-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-6">
+            <span class="inline-block text-sm px-4 py-2 rounded-full bg-gradient-to-r from-primary-blue to-blue-600 text-white font-bold">{{ project.get_category_display }}</span>
+            {% if project.client_name %}<div class="text-base text-gray-900">Client: <span class="font-bold">{{ project.client_name }}</span></div>{% endif %}
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">{{ project.title }}</h1>
+    </div>
+</section>
+
+<section class="py-12 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-3xl overflow-hidden shadow-2xl mb-12">
+            {% if project.featured_image %}
+                <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-[480px] object-cover" loading="eager">
+            {% else %}
+                <div class="h-[480px] bg-gradient-to-br from-primary-blue/20 to-accent-green/20 flex items-center justify-center">
+                    <svg viewBox="0 0 24 24" class="w-20 h-20 text-gray-900" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div class="lg:col-span-2">
+                <article class="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-600 prose-p:leading-relaxed prose-a:text-primary-blue">
+                    {{ project.description|safe }}
+                </article>
+
+                {% if project.gallery_images %}
+                <div class="mt-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Gallery</h2>
+                    <div class="grid grid-cols-2 gap-6">
+                        {% for img in project.gallery_images %}
+                        <div class="rounded-2xl overflow-hidden shadow-lg">
+                            <img src="{{ img }}" alt="Gallery image for {{ project.title }}" class="w-full h-64 object-cover" loading="lazy">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if project.videos %}
+                <div class="mt-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Videos</h2>
+                    <div class="grid grid-cols-1 gap-6">
+                        {% for vid in project.videos %}
+                        <div class="rounded-2xl overflow-hidden shadow-lg aspect-video bg-black">
+                            <video src="{{ vid }}" class="w-full h-full" controls></video>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <aside class="space-y-6">
+                <div class="bg-gray-900 text-white rounded-2xl p-8 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">Project Info</h3>
+                    <ul class="space-y-3 text-base">
+                        <li><span class="text-gray-400 font-medium">Category:</span> <span class="text-white">{{ project.get_category_display }}</span></li>
+                        {% if project.timeline %}<li><span class="text-gray-400 font-medium">Timeline:</span> <span class="text-white">{{ project.timeline }}</span></li>{% endif %}
+                        {% if project.client_name %}<li><span class="text-gray-400 font-medium">Client:</span> <span class="text-white">{{ project.client_name }}</span></li>{% endif %}
+                    </ul>
+                </div>
+
+                {% if project.services_used.all %}
+                <div class="bg-gray-900 text-white rounded-2xl p-8 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">Services Used</h3>
+                    <ul class="space-y-2">
+                        {% for service in project.services_used.all %}
+                        <li class="text-gray-300">• {{ service.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% if project.results %}
+                <div class="bg-gray-900 text-white rounded-2xl p-8 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">Results</h3>
+                    <div class="text-gray-300 prose prose-invert">{{ project.results|safe }}</div>
+                </div>
+                {% endif %}
+
+                <a href="{% url 'contact:form' %}" class="block w-full text-center px-6 py-4 bg-gradient-to-r from-primary-blue to-accent-green text-white font-bold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    Start a Similar Project
+                </a>
+            </aside>
+        </div>
+
+        <div class="flex justify-between items-center mt-16 pt-8 border-t border-gray-200">
+            <div>
+                {% if previous_project %}
+                <a href="{% url 'portfolio:detail' previous_project.slug %}" class="text-primary-blue font-bold text-lg hover:underline">← Previous Project</a>
+                {% endif %}
+            </div>
+            <div>
+                {% if next_project %}
+                <a href="{% url 'portfolio:detail' next_project.slug %}" class="text-primary-blue font-bold text-lg hover:underline">Next Project →</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
