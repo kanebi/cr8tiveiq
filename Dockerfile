@@ -29,15 +29,11 @@ RUN pip install --upgrade pip && \
 # Copy project files
 COPY . .
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
-
-# Run migrations (optional - can also be done in start command)
-# RUN python manage.py migrate --noinput
+# Make entrypoint executable
+RUN chmod +x /app/entrypoint.sh
 
 # Expose port
-EXPOSE 8000
+EXPOSE $PORT
 
 # Start command
-CMD python manage.py migrate --noinput && \
-    gunicorn config.wsgi --bind 0.0.0.0:$PORT --workers 4 --timeout 120
+CMD ["/app/entrypoint.sh"]
