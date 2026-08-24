@@ -59,10 +59,10 @@
                     <h2 class="text-3xl md:text-4xl font-extrabold mb-4 leading-snug">
                         Empowering Brands Through Creative Excellence
                     </h2>
-                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                <p class="text-gray-200 text-lg leading-relaxed mb-6">
                         Since our inception, we've been dedicated to helping brands of all sizes unleash their full potential through innovative design, strategic thinking, and unparalleled craftsmanship.
                     </p>
-                    <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                <p class="text-gray-200 text-lg leading-relaxed mb-8">
                         We believe that great design and strategic thinking go hand-in-hand. Every project we undertake is approached with the same level of dedication and creativity.
                     </p>
                     <a href="{% url 'core:about' %}" class="inline-block px-6 py-3 bg-white text-gray-900 font-bold rounded-full hover:shadow-xl transition-all duration-300">
@@ -205,7 +205,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             {% for testimonial in testimonials %}
-            <div class="{% cycle 'bg-gray-100' 'bg-gray-900 text-white' 'bg-gradient-to-r from-primary-blue to-accent-green text-white' %} rounded-3xl p-8 shadow-lg">
+            {% cycle 'light' 'dark' 'brand' as card silent %}
+            <div class="{% if card == 'light' %}bg-gray-100 text-gray-900{% elif card == 'dark' %}bg-gray-900 text-white{% else %}bg-gradient-to-r from-primary-blue to-accent-green text-white{% endif %} rounded-3xl p-8 shadow-lg">
                 <div class="flex gap-1 mb-6">
                     {% for i in "12345" %}
                         {% if forloop.counter <= testimonial.rating %}
@@ -213,20 +214,20 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                <p class="{% if 'bg-gray-100' in forloop.cycle %}text-gray-700{% else %}text-gray-300{% endif %} text-lg mb-6 leading-relaxed">
+                <p class="{% if card == 'light' %}text-gray-900{% elif card == 'dark' %}text-gray-200{% else %}text-white{% endif %} text-lg mb-6 leading-relaxed">
                     "{{ testimonial.testimonial_text }}"
                 </p>
                 <div class="flex items-center gap-4">
                     {% if testimonial.photo %}
                     <img src="{{ testimonial.photo.url }}" alt="{{ testimonial.client_name }}" class="w-16 h-16 rounded-full object-cover">
                     {% else %}
-                    <div class="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 font-bold text-xl">
+                    <div class="w-16 h-16 rounded-full {% if card == 'light' %}bg-gray-300 text-gray-800{% else %}bg-white/20 text-white{% endif %} flex items-center justify-center font-bold text-xl">
                         {{ testimonial.client_name|first }}
                     </div>
                     {% endif %}
                     <div>
-                        <div class="font-bold {% if 'bg-gray-100' in forloop.cycle %}text-gray-900{% else %}text-white{% endif %}">{{ testimonial.client_name }}</div>
-                        <div class="{% if 'bg-gray-100' in forloop.cycle %}text-gray-600{% elif 'bg-gray-900' in forloop.cycle %}text-gray-400{% else %}text-white/80{% endif %} text-sm">
+                        <div class="font-bold {% if card == 'light' %}text-gray-900{% else %}text-white{% endif %}">{{ testimonial.client_name }}</div>
+                        <div class="{% if card == 'light' %}text-gray-600{% elif card == 'dark' %}text-gray-300{% else %}text-white/90{% endif %} text-sm">
                             {% if testimonial.role %}{{ testimonial.role }}{% endif %}{% if testimonial.role and testimonial.company %}, {% endif %}{% if testimonial.company %}{{ testimonial.company }}{% endif %}
                         </div>
                     </div>

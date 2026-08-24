@@ -67,6 +67,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="{% static 'css/dotnet.css' %}">
+
     <!-- Extra CSS -->
     {% block extra_css %}{% endblock %}
     
@@ -74,6 +76,10 @@
     {% include 'includes/analytics.html' %}
 </head>
 <body class="bg-white text-gray-900 font-sans">
+    <div id="dotnet" class="dotnet" aria-hidden="true">
+        <canvas id="dotnet-canvas" class="dotnet__canvas"></canvas>
+    </div>
+
     <!-- Header -->
     {% include 'includes/header.html' %}
     
@@ -86,6 +92,7 @@
     {% include 'includes/footer.html' %}
     
     <!-- Scripts -->
+    <script src="{% static 'js/dotnet.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/animations.js' %}"></script>
     <script src="{% static 'js/form-validation.js' %}"></script>
