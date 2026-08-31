@@ -30,6 +30,9 @@ db.sqlite3
 /media
 /staticfiles
 .env
+gcs-credentials.json
+*-service-account.json
+google-credentials.json
 
 # IDE
 .vscode/

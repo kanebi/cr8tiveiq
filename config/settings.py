@@ -4,6 +4,7 @@ Django settings for CR8TIVEIQ project.
 
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -161,6 +162,71 @@ else:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Google Cloud Storage — production media (portfolio, blog, testimonials)
+# Enable by setting GS_BUCKET_NAME. Local stays on disk when the name is empty
+# or USE_GCS=False.
+GS_BUCKET_NAME = os.getenv('GS_BUCKET_NAME', '').strip()
+GS_PROJECT_ID = os.getenv('GS_PROJECT_ID', '').strip()
+GS_LOCATION = os.getenv('GS_LOCATION', 'media').strip().strip('/')
+GS_MEDIA_URL = os.getenv('GS_MEDIA_URL', '').strip()
+USE_GCS = os.getenv('USE_GCS', 'True' if GS_BUCKET_NAME else 'False') == 'True' and bool(GS_BUCKET_NAME)
+
+if USE_GCS:
+    import json
+
+    from google.oauth2 import service_account
+
+    gcs_options = {
+        'bucket_name': GS_BUCKET_NAME,
+        'location': GS_LOCATION,
+        'file_overwrite': False,
+        'default_acl': None,
+        'querystring_auth': os.getenv('GS_QUERYSTRING_AUTH', 'False') == 'True',
+        'object_parameters': {
+            'cache_control': 'public, max-age=86400',
+        },
+    }
+    if GS_PROJECT_ID:
+        gcs_options['project_id'] = GS_PROJECT_ID
+
+    credentials_json = os.getenv('GCS_CREDENTIALS_JSON', '').strip()
+    credentials_file = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
+    if credentials_json:
+        gcs_options['credentials'] = service_account.Credentials.from_service_account_info(
+            json.loads(credentials_json)
+        )
+    elif credentials_file:
+        gcs_options['credentials'] = service_account.Credentials.from_service_account_file(
+            credentials_file
+        )
+
+    default_bucket_root = f'https://storage.googleapis.com/{GS_BUCKET_NAME}'
+    default_media_url = f'{default_bucket_root}/{GS_LOCATION}/'
+    if not GS_MEDIA_URL:
+        GS_MEDIA_URL = default_media_url
+    if not GS_MEDIA_URL.endswith('/'):
+        GS_MEDIA_URL += '/'
+
+    media_root = GS_MEDIA_URL.rstrip('/')
+    location_suffix = f'/{GS_LOCATION}' if GS_LOCATION else ''
+    if location_suffix and media_root.endswith(location_suffix):
+        bucket_root = media_root[: -len(location_suffix)]
+    else:
+        bucket_root = media_root
+    if bucket_root != default_bucket_root:
+        gcs_options['custom_endpoint'] = bucket_root
+
+    MEDIA_URL = GS_MEDIA_URL
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.gcloud.GoogleCloudStorage',
+            'OPTIONS': gcs_options,
+        },
+        'staticfiles': {
+            'BACKEND': STATICFILES_STORAGE,
+        },
+    }
+
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -279,13 +345,19 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
+    gcs_host = urlparse(MEDIA_URL).netloc if USE_GCS else ''
+    img_src = ["'self'", 'data:', 'https:']
+    media_src = ["'self'"]
+    if gcs_host:
+        img_src.append(f'https://{gcs_host}')
+        media_src.append(f'https://{gcs_host}')
     SECURE_CONTENT_SECURITY_POLICY = {
         'default-src': ("'self'",),
         'script-src': ("'self'", "'unsafe-inline'", 'cdn.jsdelivr.net'),
         'style-src': ("'self'", "'unsafe-inline'", 'fonts.googleapis.com'),
         'font-src': ("'self'", 'fonts.gstatic.com'),
-        'img-src': ("'self'", 'data:', 'https:'),
-        'media-src': ("'self'",),
+        'img-src': tuple(img_src),
+        'media-src': tuple(media_src),
         'frame-ancestors': ("'none'",),
     }
     SECURE_HSTS_SECONDS = 31536000

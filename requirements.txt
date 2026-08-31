@@ -16,3 +16,5 @@ python-dotenv==1.0.0
 django-tailwind==3.7.0
 dj-database-url==2.1.0
 django-ckeditor==6.7.0
+django-storages==1.14.4
+google-cloud-storage==2.18.2
