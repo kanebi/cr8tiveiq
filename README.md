@@ -159,17 +159,14 @@ Access the admin interface at `http://localhost:8000/admin/`
 
 Production runs on Railway. Uploaded images are stored on Google Cloud Storage.
 
-Set these on the Railway service (and leave them empty locally):
+Set these on the Railway service (leave `USE_GCS=False` locally):
 
 ```
 USE_GCS=True
-GS_BUCKET_NAME=cr8tiveiq-media
 GS_MEDIA_URL=https://storage.googleapis.com/cr8tiveiq-media/media/
-GS_PROJECT_ID=your-gcp-project-id
-GCS_CREDENTIALS_JSON={"type":"service_account",...}
 ```
 
-Create a GCS bucket with uniform access and grant the service account **Storage Object Admin**. For public image URLs, also grant `allUsers` **Storage Object Viewer**. See `.env.example` for the full list.
+The bucket name is read from that URL. A public bucket is enough to render images. Add `GCS_CREDENTIALS_JSON` only if Django admin should upload into the bucket.
 
 See `DEPLOYMENT.md` for production deployment instructions.
 

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static media_tags %}
 
 {% block title %}Home - CR8TIVEIQ{% endblock %}
 {% block description %}Transform your digital presence with CR8TIVEIQ - Your creative partner for digital excellence.{% endblock %}
@@ -219,7 +219,7 @@
                 </p>
                 <div class="flex items-center gap-4">
                     {% if testimonial.photo %}
-                    <img src="{{ testimonial.photo.url }}" alt="{{ testimonial.client_name }}" class="w-16 h-16 rounded-full object-cover">
+                    <img src="{{ testimonial.photo|media_url }}" alt="{{ testimonial.client_name }}" class="w-16 h-16 rounded-full object-cover">
                     {% else %}
                     <div class="w-16 h-16 rounded-full {% if card == 'light' %}bg-gray-300 text-gray-800{% else %}bg-white/20 text-white{% endif %} flex items-center justify-center font-bold text-xl">
                         {{ testimonial.client_name|first }}

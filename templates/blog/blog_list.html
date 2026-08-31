@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load media_tags %}
 
 {% block title %}Blog - CR8TIVEIQ{% endblock %}
 {% block description %}Read our latest insights, tips, and trends in digital marketing and creative design.{% endblock %}
@@ -27,7 +28,7 @@
                 {% if featured %}
                 <a href="{% url 'blog:detail' featured.slug %}" class="block rounded-xl overflow-hidden border border-gray-200 bg-white hover:shadow-lg transition-shadow duration-300">
                     {% if featured.featured_image %}
-                        <img src="{{ featured.featured_image.url }}" alt="{{ featured.title }}" class="w-full h-96 object-cover" loading="eager">
+                        <img src="{{ featured.featured_image|media_url }}" alt="{{ featured.title }}" class="w-full h-96 object-cover" loading="eager">
                     {% else %}
                         <div class="h-96 bg-gradient-to-br from-primary-blue/20 to-accent-green/20 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" class="w-16 h-16 text-gray-700" fill="none" stroke="currentColor" stroke-width="2">
@@ -74,7 +75,7 @@
                             <a href="{% url 'blog:detail' art.slug %}" class="flex gap-4 items-center group">
                                 <div class="w-16 h-16 rounded-lg overflow-hidden bg-gray-800 flex items-center justify-center border border-gray-700">
                                     {% if art.featured_image %}
-                                        <img src="{{ art.featured_image.url }}" alt="{{ art.title }}" class="w-full h-full object-cover" loading="lazy">
+                                        <img src="{{ art.featured_image|media_url }}" alt="{{ art.title }}" class="w-full h-full object-cover" loading="lazy">
                                     {% else %}
                                         <svg viewBox="0 0 24 24" class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="2">
                                             <rect x="3" y="5" width="18" height="14" rx="2"></rect>
@@ -101,7 +102,7 @@
             <article class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <a href="{% url 'blog:detail' article.slug %}">
                     {% if article.featured_image %}
-                        <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-52 object-cover" loading="lazy">
+                        <img src="{{ article.featured_image|media_url }}" alt="{{ article.title }}" class="w-full h-52 object-cover" loading="lazy">
                     {% else %}
                         <div class="h-52 bg-gradient-to-br from-primary-blue/20 to-accent-green/20 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" stroke-width="2">

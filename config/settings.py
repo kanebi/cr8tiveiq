@@ -162,70 +162,37 @@ else:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Google Cloud Storage — production media (portfolio, blog, testimonials)
-# Enable by setting GS_BUCKET_NAME. Local stays on disk when the name is empty
-# or USE_GCS=False.
-GS_BUCKET_NAME = os.getenv('GS_BUCKET_NAME', '').strip()
-GS_PROJECT_ID = os.getenv('GS_PROJECT_ID', '').strip()
-GS_LOCATION = os.getenv('GS_LOCATION', 'media').strip().strip('/')
-GS_MEDIA_URL = os.getenv('GS_MEDIA_URL', '').strip()
-USE_GCS = os.getenv('USE_GCS', 'True' if GS_BUCKET_NAME else 'False') == 'True' and bool(GS_BUCKET_NAME)
+# Google Cloud Storage — public media URLs.
+# Production only needs USE_GCS=True and GS_MEDIA_URL.
+# Example: https://storage.googleapis.com/cr8tiveiq-media/media/
+# Optional GCS_CREDENTIALS_JSON is only for admin uploads, not for rendering.
+from django.core.exceptions import ImproperlyConfigured
+
+from apps.core.storage import normalize_media_base, parse_gcs_media_url
+
+USE_GCS = os.getenv('USE_GCS', 'False') == 'True'
+GS_MEDIA_URL = normalize_media_base(os.getenv('GS_MEDIA_URL', ''))
+GCS_CREDENTIALS_JSON = os.getenv('GCS_CREDENTIALS_JSON', '').strip()
+GOOGLE_APPLICATION_CREDENTIALS = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
 
 if USE_GCS:
-    import json
-
-    from google.oauth2 import service_account
-
-    gcs_options = {
-        'bucket_name': GS_BUCKET_NAME,
-        'location': GS_LOCATION,
-        'file_overwrite': False,
-        'default_acl': None,
-        'querystring_auth': os.getenv('GS_QUERYSTRING_AUTH', 'False') == 'True',
-        'object_parameters': {
-            'cache_control': 'public, max-age=86400',
-        },
-    }
-    if GS_PROJECT_ID:
-        gcs_options['project_id'] = GS_PROJECT_ID
-
-    credentials_json = os.getenv('GCS_CREDENTIALS_JSON', '').strip()
-    credentials_file = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
-    if credentials_json:
-        gcs_options['credentials'] = service_account.Credentials.from_service_account_info(
-            json.loads(credentials_json)
-        )
-    elif credentials_file:
-        gcs_options['credentials'] = service_account.Credentials.from_service_account_file(
-            credentials_file
-        )
-
-    default_bucket_root = f'https://storage.googleapis.com/{GS_BUCKET_NAME}'
-    default_media_url = f'{default_bucket_root}/{GS_LOCATION}/'
     if not GS_MEDIA_URL:
-        GS_MEDIA_URL = default_media_url
-    if not GS_MEDIA_URL.endswith('/'):
-        GS_MEDIA_URL += '/'
-
-    media_root = GS_MEDIA_URL.rstrip('/')
-    location_suffix = f'/{GS_LOCATION}' if GS_LOCATION else ''
-    if location_suffix and media_root.endswith(location_suffix):
-        bucket_root = media_root[: -len(location_suffix)]
-    else:
-        bucket_root = media_root
-    if bucket_root != default_bucket_root:
-        gcs_options['custom_endpoint'] = bucket_root
-
+        raise ImproperlyConfigured('USE_GCS=True requires GS_MEDIA_URL (the public bucket URL).')
+    parsed_gcs = parse_gcs_media_url(GS_MEDIA_URL)
+    GS_BUCKET_NAME = parsed_gcs['bucket']
+    GS_LOCATION = parsed_gcs['location']
     MEDIA_URL = GS_MEDIA_URL
     STORAGES = {
         'default': {
-            'BACKEND': 'storages.backends.gcloud.GoogleCloudStorage',
-            'OPTIONS': gcs_options,
+            'BACKEND': 'apps.core.storage.PublicGCSMediaStorage',
         },
         'staticfiles': {
             'BACKEND': STATICFILES_STORAGE,
         },
     }
+else:
+    GS_BUCKET_NAME = ''
+    GS_LOCATION = 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static media_tags %}
 
 {% block title %}{{ project.title }} - CR8TIVEIQ{% endblock %}
 
@@ -18,7 +18,7 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="rounded-3xl overflow-hidden shadow-2xl mb-12">
             {% if project.featured_image %}
-                <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-[480px] object-cover" loading="eager">
+                <img src="{{ project.featured_image|media_url }}" alt="{{ project.title }}" class="w-full h-[480px] object-cover" loading="eager">
             {% else %}
                 <div class="h-[480px] bg-gradient-to-br from-primary-blue/20 to-accent-green/20 flex items-center justify-center">
                     <svg viewBox="0 0 24 24" class="w-20 h-20 text-gray-900" fill="none" stroke="currentColor" stroke-width="2">

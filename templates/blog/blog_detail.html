@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load media_tags %}
 
 {% block title %}{{ article.title }} - CR8TIVEIQ{% endblock %}
 {% block description %}{{ article.excerpt|default:article.title }}{% endblock %}
@@ -19,7 +20,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {% if article.featured_image %}
         <div class="rounded-2xl overflow-hidden border border-gray-200 mb-10">
-            <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-[420px] object-cover" loading="eager">
+            <img src="{{ article.featured_image|media_url }}" alt="{{ article.title }}" class="w-full h-[420px] object-cover" loading="eager">
         </div>
         {% endif %}
         <article class="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-primary-blue">
@@ -42,7 +43,7 @@
             <article class="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
                 <a href="{% url 'blog:detail' related.slug %}">
                     {% if related.featured_image %}
-                        <img src="{{ related.featured_image.url }}" alt="{{ related.title }}" class="w-full h-40 object-cover" loading="lazy">
+                        <img src="{{ related.featured_image|media_url }}" alt="{{ related.title }}" class="w-full h-40 object-cover" loading="lazy">
                     {% else %}
                         <div class="h-40 bg-gradient-to-br from-primary-blue/20 to-accent-green/20 flex items-center justify-center">
                             <svg viewBox="0 0 24 24" class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" stroke-width="2">
