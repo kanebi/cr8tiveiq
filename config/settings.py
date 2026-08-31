@@ -152,12 +152,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# WhiteNoise configuration for static files in production
-if DEBUG:
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-else:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -175,6 +169,19 @@ GS_MEDIA_URL = normalize_media_base(os.getenv('GS_MEDIA_URL', ''))
 GCS_CREDENTIALS_JSON = os.getenv('GCS_CREDENTIALS_JSON', '').strip()
 GOOGLE_APPLICATION_CREDENTIALS = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
 
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': (
+            'django.contrib.staticfiles.storage.StaticFilesStorage'
+            if DEBUG
+            else 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+        ),
+    },
+}
+
 if USE_GCS:
     if not GS_MEDIA_URL:
         raise ImproperlyConfigured('USE_GCS=True requires GS_MEDIA_URL (the public bucket URL).')
@@ -182,13 +189,8 @@ if USE_GCS:
     GS_BUCKET_NAME = parsed_gcs['bucket']
     GS_LOCATION = parsed_gcs['location']
     MEDIA_URL = GS_MEDIA_URL
-    STORAGES = {
-        'default': {
-            'BACKEND': 'apps.core.storage.PublicGCSMediaStorage',
-        },
-        'staticfiles': {
-            'BACKEND': STATICFILES_STORAGE,
-        },
+    STORAGES['default'] = {
+        'BACKEND': 'apps.core.storage.PublicGCSMediaStorage',
     }
 else:
     GS_BUCKET_NAME = ''
