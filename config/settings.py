@@ -184,11 +184,18 @@ STORAGES = {
 
 if USE_GCS:
     if not GS_MEDIA_URL:
-        raise ImproperlyConfigured('USE_GCS=True requires GS_MEDIA_URL (the public bucket URL).')
+        raise ImproperlyConfigured('USE_GCS=True requires GS_MEDIA_URL (the bucket name or GCS URL).')
     parsed_gcs = parse_gcs_media_url(GS_MEDIA_URL)
+    if not parsed_gcs['bucket']:
+        raise ImproperlyConfigured(
+            'GS_MEDIA_URL must include a bucket name, e.g. '
+            'https://storage.googleapis.com/cr8tive-iq/ or '
+            'https://console.cloud.google.com/storage/browser/cr8tive-iq'
+        )
     GS_BUCKET_NAME = parsed_gcs['bucket']
     GS_LOCATION = parsed_gcs['location']
-    MEDIA_URL = GS_MEDIA_URL
+    GS_MEDIA_URL = parsed_gcs['base_url']
+    MEDIA_URL = parsed_gcs['base_url']
     STORAGES['default'] = {
         'BACKEND': 'apps.core.storage.PublicGCSMediaStorage',
     }

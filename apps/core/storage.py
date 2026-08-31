@@ -9,40 +9,77 @@ from django.utils.deconstruct import deconstructible
 
 def normalize_media_base(url):
     """Return a media base URL that always ends with a slash."""
-    url = (url or '').strip()
+    url = (url or '').strip().strip('"').strip("'")
     if not url:
         return ''
     return url if url.endswith('/') else f'{url}/'
 
 
+def _public_base(bucket, location=''):
+    base = f'https://storage.googleapis.com/{bucket}/'
+    if location:
+        base += f'{location.strip("/")}/'
+    return base
+
+
 def parse_gcs_media_url(media_url):
     """
-    Read bucket + folder prefix from a public GCS (or CDN) media URL.
+    Read bucket + folder prefix from a GCS URL, console link, or bucket name.
 
-    https://storage.googleapis.com/cr8tiveiq-media/media/
-        → bucket=cr8tiveiq-media, location=media
-    https://storage.googleapis.com/cr8tiveiq-media/
-        → bucket=cr8tiveiq-media, location=''
-    https://cdn.example.com/media/
-        → bucket='', location=media
+    https://storage.googleapis.com/cr8tive-iq/media/
+    https://console.cloud.google.com/storage/browser/cr8tive-iq
+    gs://cr8tive-iq/media
+    cr8tive-iq
     """
-    base = normalize_media_base(media_url)
-    parsed = urlparse(base)
-    parts = [part for part in parsed.path.split('/') if part]
+    raw = (media_url or '').strip().strip('"').strip("'")
+    if not raw:
+        return {'bucket': '', 'location': '', 'base_url': '', 'host': ''}
+
+    if '://' not in raw and '/' not in raw:
+        return {
+            'bucket': raw,
+            'location': '',
+            'base_url': _public_base(raw),
+            'host': 'storage.googleapis.com',
+        }
+
+    parsed = urlparse(raw)
+    path = parsed.path.split(';')[0]
+    parts = [part for part in path.split('/') if part]
     bucket = ''
     location = ''
 
-    if parsed.netloc == 'storage.googleapis.com' and parts:
+    if parsed.scheme == 'gs':
+        bucket = parsed.netloc
+        location = '/'.join(parts)
+    elif parsed.netloc == 'console.cloud.google.com':
+        marker = None
+        if 'browser' in parts:
+            marker = 'browser'
+        elif 'buckets' in parts:
+            marker = 'buckets'
+        if marker:
+            rest = parts[parts.index(marker) + 1:]
+            bucket = rest[0] if rest else ''
+            location = '/'.join(rest[1:])
+    elif parsed.netloc in ('storage.googleapis.com', 'storage.cloud.google.com') and parts:
         bucket = parts[0]
         location = '/'.join(parts[1:])
     elif parts:
         location = '/'.join(parts)
 
+    if bucket:
+        base_url = _public_base(bucket, location)
+        host = 'storage.googleapis.com'
+    else:
+        base_url = normalize_media_base(raw)
+        host = parsed.netloc
+
     return {
         'bucket': bucket,
         'location': location,
-        'base_url': base,
-        'host': parsed.netloc,
+        'base_url': base_url,
+        'host': host,
     }
 
 
@@ -109,8 +146,9 @@ class PublicGCSMediaStorage(Storage):
         parsed = parse_gcs_media_url(getattr(settings, 'GS_MEDIA_URL', '') or getattr(settings, 'MEDIA_URL', ''))
         if not parsed['bucket']:
             raise ImproperlyConfigured(
-                'GS_MEDIA_URL must be a https://storage.googleapis.com/<bucket>/... URL '
-                'so uploads know which bucket to use.'
+                'GS_MEDIA_URL must include a bucket name, e.g. '
+                'https://storage.googleapis.com/cr8tive-iq/ or '
+                'https://console.cloud.google.com/storage/browser/cr8tive-iq'
             )
         return _gcs_client().bucket(parsed['bucket'])
 

@@ -27,6 +27,22 @@ class ParseGcsMediaUrlTests(SimpleTestCase):
         self.assertEqual(parsed['location'], '')
         self.assertTrue(parsed['base_url'].endswith('/'))
 
+    def test_parses_console_browser_url(self):
+        parsed = parse_gcs_media_url('https://console.cloud.google.com/storage/browser/cr8tive-iq')
+        self.assertEqual(parsed['bucket'], 'cr8tive-iq')
+        self.assertEqual(parsed['location'], '')
+        self.assertEqual(parsed['base_url'], 'https://storage.googleapis.com/cr8tive-iq/')
+
+    def test_parses_quoted_console_url(self):
+        parsed = parse_gcs_media_url('"https://console.cloud.google.com/storage/browser/cr8tive-iq"')
+        self.assertEqual(parsed['bucket'], 'cr8tive-iq')
+        self.assertEqual(parsed['base_url'], 'https://storage.googleapis.com/cr8tive-iq/')
+
+    def test_parses_bare_bucket_name(self):
+        parsed = parse_gcs_media_url('cr8tive-iq')
+        self.assertEqual(parsed['bucket'], 'cr8tive-iq')
+        self.assertEqual(parsed['base_url'], 'https://storage.googleapis.com/cr8tive-iq/')
+
 
 class AbsoluteMediaUrlTests(SimpleTestCase):
     @override_settings(MEDIA_URL=GCS_MEDIA, GS_MEDIA_URL=GCS_MEDIA, USE_GCS=True)
