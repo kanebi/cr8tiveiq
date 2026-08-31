@@ -168,6 +168,10 @@ USE_GCS = os.getenv('USE_GCS', 'False') == 'True'
 GS_MEDIA_URL = normalize_media_base(os.getenv('GS_MEDIA_URL', ''))
 GCS_CREDENTIALS_JSON = os.getenv('GCS_CREDENTIALS_JSON', '').strip()
 GOOGLE_APPLICATION_CREDENTIALS = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', '').strip()
+if GOOGLE_APPLICATION_CREDENTIALS and not Path(GOOGLE_APPLICATION_CREDENTIALS).is_file():
+    credentials_path = BASE_DIR / GOOGLE_APPLICATION_CREDENTIALS
+    if credentials_path.is_file():
+        GOOGLE_APPLICATION_CREDENTIALS = str(credentials_path)
 
 STORAGES = {
     'default': {

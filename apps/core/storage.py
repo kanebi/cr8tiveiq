@@ -127,7 +127,8 @@ def _gcs_client():
     if credentials_file:
         credentials = service_account.Credentials.from_service_account_file(credentials_file)
         return storage.Client(credentials=credentials, project=credentials.project_id)
-    return storage.Client()
+    # Public buckets do not need ADC. Railway has no Google default credentials.
+    return storage.Client.create_anonymous_client()
 
 
 @deconstructible
@@ -159,7 +160,17 @@ class PublicGCSMediaStorage(Storage):
         blob = self._blob(name)
         content.seek(0)
         blob.cache_control = 'public, max-age=86400'
-        blob.upload_from_file(content, rewind=True, content_type=getattr(content, 'content_type', None))
+        try:
+            blob.upload_from_file(content, rewind=True, content_type=getattr(content, 'content_type', None))
+        except Exception as exc:
+            status = getattr(exc, 'code', None) or getattr(getattr(exc, 'response', None), 'status_code', None)
+            if status in (401, 403) or 'Anonymous' in str(exc) or 'credentials' in str(exc).lower():
+                raise ImproperlyConfigured(
+                    'This public bucket can serve files without a key, but admin uploads '
+                    'still need write access. Add a service-account JSON as GCS_CREDENTIALS_JSON, '
+                    'or grant allUsers the Storage Object Creator role on the bucket.'
+                ) from exc
+            raise
         return name
 
     def _open(self, name, mode='rb'):

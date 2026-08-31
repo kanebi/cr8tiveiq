@@ -1,9 +1,12 @@
+from unittest.mock import patch
+
 from django.template import Context, Template
 from django.test import SimpleTestCase, TestCase, override_settings
 
 from apps.core.models import Testimonial
 from apps.core.storage import (
     PublicGCSMediaStorage,
+    _gcs_client,
     absolute_media_url,
     object_name,
     parse_gcs_media_url,
@@ -81,6 +84,13 @@ class PublicGCSMediaStorageTests(SimpleTestCase):
     @override_settings(MEDIA_URL=GCS_MEDIA, GS_MEDIA_URL=GCS_MEDIA, USE_GCS=True)
     def test_object_name_includes_media_prefix(self):
         self.assertEqual(object_name('blog/cover.png'), 'media/blog/cover.png')
+
+    @override_settings(GCS_CREDENTIALS_JSON='', GOOGLE_APPLICATION_CREDENTIALS='')
+    def test_public_bucket_uses_anonymous_client(self):
+        with patch('google.cloud.storage.Client') as client_cls:
+            _gcs_client()
+            client_cls.create_anonymous_client.assert_called_once()
+            client_cls.assert_not_called()
 
 
 class MediaUrlFilterTests(SimpleTestCase):
