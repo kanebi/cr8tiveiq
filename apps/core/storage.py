@@ -112,34 +112,75 @@ def object_name(name):
     return relative
 
 
+def _unwrap_matching_quotes(text):
+    if len(text) >= 2 and text[0] == text[-1] and text[0] in ('"', "'"):
+        return text[1:-1].strip()
+    return text
+
+
+def _as_service_account(data):
+    if not (isinstance(data, dict) and data.get('type') == 'service_account'):
+        return None
+    private_key = data.get('private_key', '')
+    if isinstance(private_key, str) and '\\n' in private_key:
+        data = {**data, 'private_key': private_key.replace('\\n', '\n')}
+    return data
+
+
 def parse_gcs_credentials_json(raw):
-    """Parse a service-account JSON string from an env var. Empty returns None."""
+    """Parse service-account JSON from an env var. Empty or '\"\"' returns None.
+
+    Hosts like Railway store the value as a string, often wrapped in extra quotes:
+    '{"type":"service_account",...}'  or  "{\"type\":\"service_account\",...}"
+    """
+    if isinstance(raw, bytes):
+        raw = raw.decode('utf-8')
     text = str(raw or '').strip()
-    if not text:
+    if not text or text in ('""', "''"):
         return None
 
-    candidates = [text]
-    if text.startswith("'") and text.endswith("'"):
-        candidates.append(text[1:-1].strip())
-
-    for candidate in candidates:
+    current = text
+    for _ in range(6):
+        if not current or current in ('""', "''"):
+            return None
         try:
-            data = json.loads(candidate)
+            parsed = json.loads(current)
         except json.JSONDecodeError:
+            parsed = None
+
+        if isinstance(parsed, dict):
+            info = _as_service_account(parsed)
+            if info:
+                return info
+            break
+
+        if isinstance(parsed, str):
+            current = parsed.strip()
             continue
-        if isinstance(data, str):
+
+        unwrapped = _unwrap_matching_quotes(current)
+        if unwrapped != current:
+            current = unwrapped
+            continue
+
+        # {\"type\":...} — escaped object that is not a JSON string
+        if '\\"' in current and '{' in current:
             try:
-                data = json.loads(data)
+                parsed = json.loads(current.replace('\\"', '"'))
             except json.JSONDecodeError:
+                break
+            if isinstance(parsed, dict):
+                info = _as_service_account(parsed)
+                if info:
+                    return info
+            if isinstance(parsed, str):
+                current = parsed.strip()
                 continue
-        if isinstance(data, dict) and data.get('type') == 'service_account':
-            private_key = data.get('private_key', '')
-            if isinstance(private_key, str) and '\\n' in private_key:
-                data['private_key'] = private_key.replace('\\n', '\n')
-            return data
+        break
 
     raise ImproperlyConfigured(
-        'GCS_CREDENTIALS_JSON must be the raw service-account JSON object, not a file path.'
+        'GCS_CREDENTIALS_JSON must be the service-account JSON object or a '
+        'quoted JSON string, not a file path.'
     )
 
 

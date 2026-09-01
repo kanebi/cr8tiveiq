@@ -114,9 +114,25 @@ class ParseCredentialsJsonTests(SimpleTestCase):
         info = parse_gcs_credentials_json(json.dumps(json.dumps(self.SAMPLE)))
         self.assertEqual(info['client_email'], 'media@demo-project.iam.gserviceaccount.com')
 
+    def test_parses_json_wrapped_in_extra_quotes(self):
+        wrapped = f'"{json.dumps(self.SAMPLE)}"'
+        info = parse_gcs_credentials_json(wrapped)
+        self.assertEqual(info['project_id'], 'demo-project')
+
+    def test_parses_single_quoted_json_string(self):
+        info = parse_gcs_credentials_json(f"'{json.dumps(self.SAMPLE)}'")
+        self.assertEqual(info['client_email'], 'media@demo-project.iam.gserviceaccount.com')
+
+    def test_parses_backslash_escaped_object(self):
+        escaped = json.dumps(self.SAMPLE).replace('"', r'\"')
+        info = parse_gcs_credentials_json(escaped)
+        self.assertEqual(info['project_id'], 'demo-project')
+
     def test_empty_returns_none(self):
         self.assertIsNone(parse_gcs_credentials_json(''))
         self.assertIsNone(parse_gcs_credentials_json(None))
+        self.assertIsNone(parse_gcs_credentials_json('""'))
+        self.assertIsNone(parse_gcs_credentials_json("''"))
 
     def test_rejects_file_path(self):
         from django.core.exceptions import ImproperlyConfigured
