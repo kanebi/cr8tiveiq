@@ -1,3 +1,4 @@
+import json
 from urllib.parse import urljoin, urlparse
 
 from django.conf import settings
@@ -111,23 +112,47 @@ def object_name(name):
     return relative
 
 
+def parse_gcs_credentials_json(raw):
+    """Parse a service-account JSON string from an env var. Empty returns None."""
+    text = str(raw or '').strip()
+    if not text:
+        return None
+
+    candidates = [text]
+    if text.startswith("'") and text.endswith("'"):
+        candidates.append(text[1:-1].strip())
+
+    for candidate in candidates:
+        try:
+            data = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(data, str):
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                continue
+        if isinstance(data, dict) and data.get('type') == 'service_account':
+            private_key = data.get('private_key', '')
+            if isinstance(private_key, str) and '\\n' in private_key:
+                data['private_key'] = private_key.replace('\\n', '\n')
+            return data
+
+    raise ImproperlyConfigured(
+        'GCS_CREDENTIALS_JSON must be the raw service-account JSON object, not a file path.'
+    )
+
+
 def _gcs_client():
     from google.cloud import storage
     from google.oauth2 import service_account
 
-    credentials_json = getattr(settings, 'GCS_CREDENTIALS_JSON', '') or ''
-    credentials_json = str(credentials_json).strip()
-    credentials_file = getattr(settings, 'GOOGLE_APPLICATION_CREDENTIALS', '') or ''
-    credentials_file = str(credentials_file).strip()
-
-    if credentials_json:
-        import json
-        credentials = service_account.Credentials.from_service_account_info(json.loads(credentials_json))
-        return storage.Client(credentials=credentials, project=credentials.project_id)
-    if credentials_file:
-        credentials = service_account.Credentials.from_service_account_file(credentials_file)
-        return storage.Client(credentials=credentials, project=credentials.project_id)
-    # Public buckets do not need ADC. Railway has no Google default credentials.
+    info = getattr(settings, 'GCS_CREDENTIALS_INFO', None)
+    if not info:
+        info = parse_gcs_credentials_json(getattr(settings, 'GCS_CREDENTIALS_JSON', ''))
+    if info:
+        credentials = service_account.Credentials.from_service_account_info(info)
+        return storage.Client(credentials=credentials, project=info.get('project_id'))
     return storage.Client.create_anonymous_client()
 
 
@@ -136,8 +161,8 @@ class PublicGCSMediaStorage(Storage):
     """
     Public GCS media. URL generation needs only GS_MEDIA_URL.
 
-    Uploads use ADC or optional GCS_CREDENTIALS_JSON. A public bucket still
-    cannot accept anonymous writes.
+    Uploads read GCS_CREDENTIALS_JSON (the service-account JSON string, not a
+    file path). A public bucket still cannot accept anonymous writes.
     """
 
     def url(self, name):

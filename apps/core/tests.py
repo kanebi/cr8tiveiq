@@ -1,3 +1,4 @@
+import json
 from unittest.mock import patch
 
 from django.template import Context, Template
@@ -9,6 +10,7 @@ from apps.core.storage import (
     _gcs_client,
     absolute_media_url,
     object_name,
+    parse_gcs_credentials_json,
     parse_gcs_media_url,
 )
 from apps.portfolio.models import PortfolioProject
@@ -85,12 +87,41 @@ class PublicGCSMediaStorageTests(SimpleTestCase):
     def test_object_name_includes_media_prefix(self):
         self.assertEqual(object_name('blog/cover.png'), 'media/blog/cover.png')
 
-    @override_settings(GCS_CREDENTIALS_JSON='', GOOGLE_APPLICATION_CREDENTIALS='')
+    @override_settings(GCS_CREDENTIALS_JSON='', GCS_CREDENTIALS_INFO=None)
     def test_public_bucket_uses_anonymous_client(self):
         with patch('google.cloud.storage.Client') as client_cls:
             _gcs_client()
             client_cls.create_anonymous_client.assert_called_once()
             client_cls.assert_not_called()
+
+
+class ParseCredentialsJsonTests(SimpleTestCase):
+    SAMPLE = {
+        'type': 'service_account',
+        'project_id': 'demo-project',
+        'private_key_id': 'abc',
+        'private_key': '-----BEGIN PRIVATE KEY-----\nDEMO\n-----END PRIVATE KEY-----\n',
+        'client_email': 'media@demo-project.iam.gserviceaccount.com',
+        'token_uri': 'https://oauth2.googleapis.com/token',
+    }
+
+    def test_parses_one_line_json(self):
+        info = parse_gcs_credentials_json(json.dumps(self.SAMPLE))
+        self.assertEqual(info['project_id'], 'demo-project')
+        self.assertIn('\n', info['private_key'])
+
+    def test_parses_double_encoded_json(self):
+        info = parse_gcs_credentials_json(json.dumps(json.dumps(self.SAMPLE)))
+        self.assertEqual(info['client_email'], 'media@demo-project.iam.gserviceaccount.com')
+
+    def test_empty_returns_none(self):
+        self.assertIsNone(parse_gcs_credentials_json(''))
+        self.assertIsNone(parse_gcs_credentials_json(None))
+
+    def test_rejects_file_path(self):
+        from django.core.exceptions import ImproperlyConfigured
+        with self.assertRaises(ImproperlyConfigured):
+            parse_gcs_credentials_json('gcs-credentials.json')
 
 
 class MediaUrlFilterTests(SimpleTestCase):

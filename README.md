@@ -166,7 +166,7 @@ USE_GCS=True
 GS_MEDIA_URL=https://storage.googleapis.com/cr8tiveiq-media/media/
 ```
 
-The bucket name is read from that URL. A public bucket is enough to render images. Add `GCS_CREDENTIALS_JSON` only if Django admin should upload into the bucket.
+The bucket name is read from that URL. A public bucket is enough to render images. For admin uploads, set `GCS_CREDENTIALS_JSON` to the service-account JSON object itself (one line), not a file path.
 
 See `DEPLOYMENT.md` for production deployment instructions.
 
