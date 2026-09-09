@@ -183,3 +183,28 @@ class FrontendGcsUrlTests(TestCase):
         response = self.client.get('/portfolio/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, f'{GCS_MEDIA}portfolio/brand.jpg')
+
+    def test_portfolio_detail_gallery_uses_full_gcs_url(self):
+        from apps.portfolio.models import PortfolioGalleryImage, PortfolioVideo
+
+        project = PortfolioProject.objects.create(
+            title='Brand Refresh',
+            slug='brand-refresh-detail',
+            client_name='Acme',
+            category='graphics',
+            description='A new look.',
+            featured_image='portfolio/brand.jpg',
+        )
+        image = PortfolioGalleryImage(project=project, caption='Mood board', order=0)
+        image.image.name = 'portfolio/gallery/mood.jpg'
+        image.save()
+        video = PortfolioVideo(project=project, title='Launch cut', order=0)
+        video.video.name = 'portfolio/videos/launch.mp4'
+        video.save()
+
+        response = self.client.get('/portfolio/brand-refresh-detail/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f'{GCS_MEDIA}portfolio/brand.jpg')
+        self.assertContains(response, f'{GCS_MEDIA}portfolio/gallery/mood.jpg')
+        self.assertContains(response, f'{GCS_MEDIA}portfolio/videos/launch.mp4')
+        self.assertNotContains(response, 'src="/media/portfolio/gallery/mood.jpg"')

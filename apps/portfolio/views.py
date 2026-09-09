@@ -34,6 +34,13 @@ class PortfolioDetailView(DetailView):
     context_object_name = 'project'
     slug_field = 'slug'
 
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .prefetch_related('gallery_items', 'video_items', 'services_used')
+        )
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         project = self.get_object()
