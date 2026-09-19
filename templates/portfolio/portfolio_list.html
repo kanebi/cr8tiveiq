@@ -41,9 +41,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for project in projects %}
             <a href="{% url 'portfolio:detail' project.slug %}" class="group block relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                <div class="aspect-square bg-gray-100">
+                <div class="relative aspect-square bg-gray-100 overflow-hidden">
                     {% if project.featured_image %}
-                        <img src="{{ project.featured_image|media_url }}" alt="{{ project.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <img src="{{ project.featured_image|media_url }}" alt="{{ project.title }}" class="absolute inset-0 w-full h-full object-contain object-center">
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary-blue/20 to-accent-green/20">
                             <svg viewBox="0 0 24 24" class="w-16 h-16 text-gray-900" fill="none" stroke="currentColor" stroke-width="2">
