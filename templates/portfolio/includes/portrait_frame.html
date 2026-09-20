@@ -1,0 +1,13 @@
+<div class="portfolio-portrait relative aspect-[3/4] overflow-hidden bg-gray-900">
+    {% if src %}
+        <img src="{{ src }}" alt="" aria-hidden="true" class="absolute inset-0 h-full w-full scale-125 object-cover object-center blur-2xl opacity-80">
+        <img src="{{ src }}" alt="{{ alt }}" class="absolute inset-0 h-full w-full object-contain object-center"{% if eager %} loading="eager"{% else %} loading="lazy"{% endif %}>
+    {% else %}
+        <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary-blue/20 to-accent-green/20">
+            <svg viewBox="0 0 24 24" class="h-16 w-16 text-white" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+        </div>
+    {% endif %}
+</div>
